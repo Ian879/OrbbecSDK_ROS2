@@ -468,4 +468,16 @@
     <axis
       xyz="0 0 0" />
   </joint>
+  <!-- camera_depth_optical_frame（官方 gemini_2 缺口补丁，非自造）：REP-103 optical 帧
+       （z 朝前），rpy 照搬 camera_color_optical_joint。link 用纯虚拟（optical 帧是坐标系非
+       实体，不依赖 STL）。让 isaac 后端 RSP 发出该 TF，供 RViz DepthCloud/Camera display
+       resolve frame；real 后端 Orbbec 驱动自带同名 TF，与此一致不冲突。
+       ⚠️ third_party 文件，upstream 升级时保留此补丁。 -->
+  <link name="camera_depth_optical_frame" />
+  <joint name="camera_depth_optical_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="-1.5707963267949 0 -1.5707963267949" />
+    <parent link="camera_depth_frame" />
+    <child link="camera_depth_optical_frame" />
+    <axis xyz="0 0 0" />
+  </joint>
 </robot>
